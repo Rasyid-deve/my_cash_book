@@ -65,6 +65,7 @@ class _HalamanSettingState extends State<HalamanSetting> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pengaturan'),
+        backgroundColor: Colors.grey,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -136,9 +137,14 @@ class _HalamanSettingState extends State<HalamanSetting> {
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('About this app',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    Text(
+                      'About this app',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     Text('Aplikasi ini dibuat oleh :'),
                     Text('Nama : Rasyed Renaldi'),
                     Text('NIM : 1941720177'),

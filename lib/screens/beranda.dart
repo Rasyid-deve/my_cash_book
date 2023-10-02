@@ -12,7 +12,7 @@ import 'tambah_pemasukan.dart';
 import 'tambah_pengeluaran.dart';
 
 class Beranda extends StatefulWidget {
-  const Beranda({super.key, required this.user}) ;
+  const Beranda({super.key, required this.user});
 
   final User user;
 
@@ -93,7 +93,7 @@ class _BerandaState extends State<Beranda> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Halaman Beranda'),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.grey,
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
@@ -259,7 +259,7 @@ class _BerandaState extends State<Beranda> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      backgroundColor: Colors.grey,
+                      backgroundColor: const Color.fromARGB(255, 120, 141, 151),
                       minimumSize: const Size(170, 0),
                     ),
                     child: Column(

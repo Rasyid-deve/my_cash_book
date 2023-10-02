@@ -13,6 +13,7 @@ class HalamanDetailCashFlow extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daftar Cash Flow'),
+        backgroundColor: Colors.grey,
       ),
       body: ListView.builder(
         itemCount: transactions.length,

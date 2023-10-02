@@ -65,6 +65,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tambah Pengeluaran'),
+        backgroundColor: Colors.grey,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -102,7 +103,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
                   child: Text('Reset'),
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: Colors.orangeAccent),
+                      backgroundColor: Colors.redAccent),
                 ),
                 const SizedBox(height: 8),
                 ElevatedButton(
