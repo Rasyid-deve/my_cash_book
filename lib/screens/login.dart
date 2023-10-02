@@ -15,7 +15,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
   TextEditingController cPass = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  
   Future<bool> checkUser(String username) async {
     User? user = await DatabaseHelper.instance.queryUser(username);
     if (user != null) {
@@ -33,29 +32,31 @@ class _HalamanLoginState extends State<HalamanLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('BKN Apps'),
-          backgroundColor: Colors.blueGrey,
-        ),
-        body: Form(
-          key: formKey,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/logo.png',
-                    width: 280.0,
-                    height: 210.0,
-                  ),
-                 Padding(
+      appBar: AppBar(
+        title: const Text('BKN Apps'),
+        backgroundColor: Colors.blueGrey,
+      ),
+      body: Form(
+        key: formKey,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/logo.png',
+                  width: 280.0,
+                  height: 210.0,
+                ),
+                Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
                     controller: cUser,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "Username"),
+                        border: OutlineInputBorder(),
+                        labelText: "Username",
+                        hintText: "Masukkan Username Anda!"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Isi Username!';
@@ -71,7 +72,9 @@ class _HalamanLoginState extends State<HalamanLogin> {
                     controller: cPass,
                     obscureText: true,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "Password"),
+                        border: OutlineInputBorder(),
+                        labelText: "Masukkan Password",
+                        hintText: "Masukkan Password Anda!"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Isi Password!';
@@ -92,14 +95,14 @@ class _HalamanLoginState extends State<HalamanLogin> {
                     ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        login(cUser.text, cPass.text)
-                            .then((userData) {
+                        login(cUser.text, cPass.text).then((userData) {
                           if (userData != null &&
                               userData.password == cPass.text) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Beranda(user: userData)),
+                                  builder: (context) =>
+                                      Beranda(user: userData)),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
