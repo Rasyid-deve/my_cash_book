@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_cash_book/screens/beranda.dart';
-// import 'package:my_cash_book/constants.dart';
-// import 'package:my_cash_book/component/component.dart';
-// import 'package:loading_overlay/loading_overlay.dart';
+import '../db_helper/db_helper.dart';
+import '../models/user.dart';
 
 class HalamanLogin extends StatefulWidget {
   const HalamanLogin({super.key, required String title});
@@ -15,6 +14,21 @@ class _HalamanLoginState extends State<HalamanLogin> {
   TextEditingController cUser = TextEditingController();
   TextEditingController cPass = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  
+  Future<bool> checkUser(String username) async {
+    User? user = await DatabaseHelper.instance.queryUser(username);
+    if (user != null) {
+      return true; // Login berhasil
+    } else {
+      return false; // Gagal login
+    }
+  }
+
+  Future<User?> login(String username, String password) async {
+    User? user = await DatabaseHelper.instance.queryUser(username);
+    return user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,83 +49,82 @@ class _HalamanLoginState extends State<HalamanLogin> {
                     width: 280.0,
                     height: 210.0,
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: TextFormField(
-                      controller: cUser,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(), labelText: "Username"),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Masukkan Username Anda!';
-                        }
-                        return null;
-                      },
-                    ),
+                 Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextFormField(
+                    controller: cUser,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: "Username"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Isi Username!';
+                      }
+                      return null;
+                    },
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: TextFormField(
-                      controller: cPass,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(), labelText: "Password"),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Masukkan Password Anda!';
-                        }
-                        return null;
-                      },
-                    ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextFormField(
+                    controller: cPass,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: "Password"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Isi Password!';
+                      }
+                      return null;
+                    },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 16.0),
-                    child: Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          String tUser = 'admin';
-                          String tPass = '12345';
-                          if (formKey.currentState!.validate()) {
-                            if (cUser.text == tUser && cPass.text == tPass) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Beranda()),
-                                  (route) => false);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Konfirmasi Login'),
-                                    content: const Text(
-                                        'User atau Password Masih Salah!'),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            cUser.text = '';
-                                            cPass.text = '';
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('OK'))
-                                    ],
-                                  );
-                                },
-                              );
-                            }
-                          }
-                        },
-                        child: const Text('Login'),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32.0),
                       ),
+                      minimumSize: const Size(200, 50),
                     ),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        login(cUser.text, cPass.text)
+                            .then((userData) {
+                          if (userData != null &&
+                              userData.password == cPass.text) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Beranda(user: userData)),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Username atau Password Salah!'),
+                              ),
+                            );
+                          }
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Masukkan inputan'),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text('Login'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

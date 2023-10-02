@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_cash_book/screens/login.dart';
-// import 'package:my_cash_book/screens/beranda.dart';
 
 void main() {
   runApp(const MyApp());
