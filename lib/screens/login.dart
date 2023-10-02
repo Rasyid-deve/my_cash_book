@@ -4,7 +4,7 @@ import '../db_helper/db_helper.dart';
 import '../models/user.dart';
 
 class HalamanLogin extends StatefulWidget {
-  const HalamanLogin({super.key, required String title});
+  const HalamanLogin({super.key});
 
   @override
   State<HalamanLogin> createState() => _HalamanLoginState();
